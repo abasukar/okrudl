@@ -1,7 +1,13 @@
 from requests import get
-import re,html,json,os,sys
+import re,html,json,os,sys,argparse
 
-dir = "/mnt/500apple/fauda_s04"
+parser = argparse.ArgumentParser()
+parser.add_argument("-l", "--link", help="link to streaming video", type=str, required = True)
+parser.add_argument("-o", "--output_dir", help="path to store the downloaded file", type=str, default = "/mnt/500apple/finished")
+parser.add_argument("-f", "--file_name", help="how to name your file (without mp4 extension)", type=str, required = True)
+args = parser.parse_args()
+
+dir = args.output_dir
 
 class OkRuDl:
     def __init__(self,video_url,user_title):
@@ -58,11 +64,11 @@ if __name__=='__main__':
 \033[92mVideo Downloader \033[0m|\033[92m Karjok Pangesty\033[0m
 
 """)
-    urlz = input("\033[92mok.ru video URL : \033[0m")
+    urlz = args.link
 #    urlz = re.search("http[s]\:\/\/[m\.]+ok\.ru",url)
-    user_title = input("\033[92mFile name: (without mp4 extension) \033[0m")
+    user_title = args.file_name
     if urlz:
         ok = OkRuDl(urlz,user_title)
         ok.download
     else:
-        print("Invalid URL !")
+        print("Invalid URL!")
